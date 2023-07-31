@@ -1,0 +1,14 @@
+install.packages("ggplot2")  # Run this line if you haven't installed ggplot2 yet
+library(ggplot2)
+
+# Example custom dataset
+custom_data <- data.frame(
+  Categories = c("Category 1", "Category 2", "Category 3", "Category 4"),
+  Values = c(25, 40, 15, 30)
+)
+
+# Bar graph
+ggplot(custom_data, aes(x = Categories, y = Values)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Custom Bar Graph", x = "Categories", y = "Values")
+

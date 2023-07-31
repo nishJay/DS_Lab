@@ -1,0 +1,45 @@
+data <- read.csv("/home/6b/Downloads/ONLINE EDUCATION SYSTEM REVIEW.csv")
+head(data, n=3)
+
+
+
+# Question 1: Distribution of students based on gender and level of education
+# Create a bar plot
+ggplot(data, aes(x = Gender, fill = Level.of.Education)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Distribution of Students based on Gender and Level of Education",
+       x = "Gender", y = "Count") +
+  scale_fill_discrete(name = "Level of Education")
+
+
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+
+# Assuming you have already read the CSV file and stored it in a variable called 'data'
+
+# Step 1: Filter data based on rural and urban locations
+data_rural <- data %>% filter(Home.Location == "Rural")
+data_urban <- data %>% filter(Home.Location == "Urban")
+
+# Step 2: Calculate the average number of subjects for each group
+avg_subjects_rural <- mean(data_rural$Number.of.Subjects)
+avg_subjects_urban <- mean(data_urban$Number.of.Subjects)
+
+# Step 3: Create a summary table for comparison
+summary_table <- data.frame(
+  Location = c("Rural", "Urban"),
+  Average_Subjects = c(avg_subjects_rural, avg_subjects_urban)
+)
+
+# Step 4: Create the bar plot
+plot <- ggplot(summary_table, aes(x = Location, y = Average_Subjects, fill = Location)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Average Number of Subjects Taken by Students\nBased on Home Location",
+       x = "Home Location",
+       y = "Average Number of Subjects") +
+  theme_minimal()
+
+# Step 5: Save the plot to a file with the desired dimensions
+ggsave("plot.png", plot, width = 6, height = 4, units = "in")
+
