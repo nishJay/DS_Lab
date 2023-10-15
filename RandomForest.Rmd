@@ -1,0 +1,78 @@
+```{r}
+install.packages("rpart")
+```
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+
+```
+
+```{r}
+install.packages("randomForest")
+library(randomForest)
+```
+
+```{r}
+library(rpart)
+```
+
+```{r}
+set.seed(123)
+x1 <- rnorm(500,mean = 5, sd = 7)
+x2 <- rnorm(500,mean = 8, sd = 20)
+x3 <- rnorm(500,mean = 10, sd = 70)
+x4 <- sample(LETTERS[1:4],500,replace =TRUE)
+y <- ifelse(x1+x2+x3>20,1,0)
+df<- data.frame(x1,x2,x3,x4,y
+```
+
+```{r}
+head(df)
+```
+
+```{r}
+write.csv(df,"syntheticds.csv")
+```
+
+```{r}
+ti <- sample(nrow(df),0.7*nrow(df))
+train <-df[ti,]
+test<- df[-ti,]
+```
+
+```{r}
+head(train)
+```
+
+```{r}
+head(test)
+```
+
+```{r}
+rf <- randomForest(y~.,data=train,ntree = 500)
+```
+
+```{r}
+pred <- predict(rf,test)
+
+```
+
+```{r}
+install.packages("Metrics")
+```
+
+```{r}
+library(Metrics)
+mae(pred,test[,"y"])
+```
+
+```{r}
+install.packages("rpart.plot")
+```
+
+```{r}
+library(rpart.plot)
+tree <- rpart(y~., data = df, cp =0.000001)
+rpart.plot(tree, box.palette = "RdBu",shadow.col="gray",nn =TRUE)
+```
